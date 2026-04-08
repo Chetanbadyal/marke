@@ -4,7 +4,7 @@ const config = require("./Config/db")
 const port=3786 ;
 
 app.use(express.urlencoded({extended:false}))
-app.use(express.json())
+app.use(express.json({limit:"50mb"}))
 const Rout=require("./Routes/apiRoutes");
 app.use("/api",Rout)
 // app.get("/",function(req,res){
