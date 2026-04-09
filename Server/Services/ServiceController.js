@@ -1,4 +1,5 @@
 const Service =require("./ServiceModel")
+const {uploadImg} = require("../../CloudinaryConfig")
 add=(req,res)=>{
     let validationError=[];
     if (!req.body.ServiceName)
