@@ -1,6 +1,7 @@
 const router =require("express").Router()
 
 const CategoryController=require("../Server/Category/CategoryController")
+const EnquiryController = require("../Server/Enquiry/EnquiryController")
 const ServiceController=require("../Server/Services/ServiceController")
 const multer=require("multer")
 const storage=multer.memoryStorage()
@@ -12,5 +13,7 @@ router.post("/Category/getsingleData",CategoryController.getsingleData)
 router.post("/Category/deleteData",CategoryController.deleteData)
 //service
 router.post("/Service/add",fileUpload.single("ServiceImage"),ServiceController.add)
+//Enquiry
+router.post("/Enquiry/add",EnquiryController.add)
 
 module.exports=router;
