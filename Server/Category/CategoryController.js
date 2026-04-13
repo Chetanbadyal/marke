@@ -189,5 +189,95 @@ deleteData=(req,res)=>{
     })
     }
 }
+updateData = (req,res)=>{
+    let validationErrors = [];
 
-module.exports = { add, getall, getsingleData,deleteData }
+    if(!req.body._id){
+        validationErrors.push("Id is required")
+    }
+
+   
+
+    if(validationErrors.length>0){
+        res.json({
+            status:422,
+            success:false,
+            message:"VALIDATION ERROR OCCURS",
+            error:validationErrors
+        })
+    }
+
+    else{
+        category.findOne({_id:req.body._id})
+        .then((categoryData)=>{
+            if(!categoryData){
+               res.json({
+                    status:404,
+                    success:false,
+                    message:"DATA NOT FOUND",
+                    
+                })
+            }
+            else{
+                
+
+                 (async ()=>{
+                    let image = "Attachment not available";
+                        if (req.file) {
+                            try {
+                                const imageUrl = await uploadImg(req.file.buffer, `node2026/${Date.now()}`);
+                                image = imageUrl;
+                            } catch (err) {
+                                console.error("Cloudinary upload error:", err);
+                                return res.status(500).json({
+                                    success: false,
+                                    status: 500,
+                                    message: "Image upload failed",
+                                    error: err.message || err
+                                });
+                            }
+                        }
+                if(req.body.categoryName){
+                    categoryData.categoryName = req.body.categoryName
+                }
+                if(req.body.description){
+                    categoryData.description = req.body.description
+                }
+                if(req.file){
+                    categoryData.categoryImage = image
+                }
+                categoryData.save()
+                .then((savedData)=>{
+                    res.json({
+                        status:200,
+                        success:true,
+                        message:"DATA UPDATED SUCCESSFULLY",
+                        data:savedData
+                    })
+                })
+                .catch((err)=>{
+                    res.json({
+                        status:500,
+                        success:false,
+                        message:"INTERNAL SERVER ERROR",
+                        error:err.message
+                    })
+                })
+                })()
+            }
+        })
+        .catch((err)=>{
+            res.json({
+                status:500,
+                success:false,
+                message:"INTERNAL SERVER ERROR",
+                error:err.message
+            })
+        })
+    }
+
+
+}
+
+
+module.exports = { add, getall, getsingleData,deleteData,updateData}
