@@ -37,12 +37,12 @@ add = (req, res) => {
     //Dublicacy Check
     else {
         Booking.findOne({ BookingName: req.body.BookingName })
-            .then((CategoryData) => {
-                if (!CategoryData) {
-                    let CategoryObj = new Category()
-                    CategoryObj.BookingName = req.body.BookingName;
-                    CategoryObj.description = req.body.description;
-                    CategoryObj.save()
+            .then((BookingData) => {
+                if (!BookingData) {
+                    let BookingObj = new Category()
+                    BookingObj.BookingName = req.body.BookingName;
+                    BookingObj.description = req.body.description;
+                    BookingObj.save()
                         .then((savedata) => {
                             res.json({
                                 status: 200,
