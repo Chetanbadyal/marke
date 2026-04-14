@@ -23,7 +23,21 @@ router.post("/Service/updateData",ServiceController.updateData)
 
 //Enquiry
 router.post("/Enquiry/add",EnquiryController.add)
+router.post("/Enquiry/getall",EnquiryController.getall)
+router.post("/Enquiry/getsingleData",EnquiryController.getsingleData)
+router.post("/Enquiry/deleteData",EnquiryController.deleteData)
+router.post("/Enquiry/updateData",EnquiryController.updateData)
+
+
 //Booking
 router.post("/Booking/add",BookingController.add)
+router.post("/Booking/getall",BookingController.getall)
+router.post("/Booking/getsingleData",BookingController.getsingleData)
+router.post("/Booking/deleteData",BookingController.deleteData)
+router.post("/Booking/updateData",BookingController.updateData)
+
+
+
+
 
 module.exports=router;
