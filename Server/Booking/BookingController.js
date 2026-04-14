@@ -36,12 +36,16 @@ add = (req, res) => {
     }
     //Dublicacy Check
     else {
-        Booking.findOne({ BookingName: req.body.BookingName })
-            .then((BookingData) => {
-                if (!BookingData) {
-                    let BookingObj = new Category()
-                    BookingObj.BookingName = req.body.BookingName;
-                    BookingObj.description = req.body.description;
+       
+                    let BookingObj = new Booking()
+                    BookingObj.ServiceId= req.body.ServiceId;
+                    BookingObj. VendorId = req.body.VendorId;
+                       BookingObj.CustomerId = req.body. CustomerId;
+                          BookingObj.BookingDate = req.body.BookingDate;
+                             BookingObj.BookingTime = req.body.BookingTime;
+                              BookingObj.AlternativeContact = req.body.AlternativeContact;
+                               BookingObj.Address = req.body.Address;
+                             
                     BookingObj.save()
                         .then((savedata) => {
                             res.json({
@@ -61,25 +65,10 @@ add = (req, res) => {
                             })
                         })
                 }
-                else {
-                    res.json({
-                        status: 422,
-                        success: false,
-                        Message: "Data Already exists",
-                        data: BookingData
-                    })
-                }
-            })
-            //Error check
-            .catch((err) => {
-                res.json({
-                    status: 500,
-                    success: false,
-                    Message: "internal server error",
-                    error: err.message
-                })
-            })
-    }
+               
+            
+            
+    
 
 
 }

@@ -1,4 +1,5 @@
-const Category = require("./CategoryModel");
+
+{/*const Category = require("./CategoryModel");
 //add
 add = (req, res) => {
     //validation Error
@@ -251,4 +252,6 @@ updateData=(req,res)=>{
     }
 }
 
-module.exports = { add, getall, getsingleData,deleteData,updateData }
+module.exports = { add, getall, getsingleData,deleteData,updateData } */}
+
+

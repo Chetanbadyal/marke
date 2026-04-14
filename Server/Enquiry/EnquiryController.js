@@ -1,4 +1,5 @@
-const Enquiry=require("./EnquiryModel")
+
+{/* const Enquiry=require("./EnquiryModel")
 add = (req, res) => {
     //validation Error
     let validationError = [];
@@ -76,4 +77,5 @@ add = (req, res) => {
 }
 module.exports={
     add
-}
+}*/}
+
