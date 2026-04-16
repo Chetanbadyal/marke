@@ -4,6 +4,9 @@ const CategoryController=require("../Server/Category/CategoryController")
 const EnquiryController = require("../Server/Enquiry/EnquiryController")
 const ServiceController=require("../Server/Services/ServiceController")
 const BookingController=require("../Server/Booking/BookingController")
+const CustomerController=require("../Server/Customer/CustomerController")
+const UserController=require("../Server/User/UserController")
+
 const multer=require("multer")
 const storage=multer.memoryStorage()
 const fileUpload=multer({storage})
@@ -35,6 +38,13 @@ router.post("/Booking/getall",BookingController.getall)
 router.post("/Booking/getsingleData",BookingController.getsingleData)
 router.post("/Booking/deleteData",BookingController.deleteData)
 router.post("/Booking/updateData",BookingController.updateData)
+//Resgister
+
+router.post("/Customer/Register",CustomerController.Register)
+
+//login
+
+router.post("/User/login",UserController.login)
 
 
 

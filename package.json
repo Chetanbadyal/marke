@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Chetanbadyal/marke#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cloudinary": "^2.9.0",
     "express": "^5.2.1",
     "mongoose": "^9.4.1",
