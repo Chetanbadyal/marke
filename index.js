@@ -1,16 +1,13 @@
-const express=require("express")
-const app =express()
-const config = require("./Config/db")
-const port=3786 ;
+const express = require("express")
+const app = express()
+const port = 5005;
+const Config=require("./Config/db")
 
 app.use(express.urlencoded({extended:false}))
-app.use(express.json({limit:"50mb"}))
-const Rout=require("./Routes/apiRoutes");
-app.use("/api",Rout)
-// app.get("/",function(req,res){
-//     res.send("Hello Chetan")
-// })
+app.use(express.json({limit:'50mb'}))
+const routes = require("./Routes/apiRoutes")
+app.use("/api",routes)
+
 app.listen(port,()=>{
-    console.log("hi i am running")
-}
-)
+    console.log("MY PROJECT IS RUNNING ON PORT"+" "+port)
+})

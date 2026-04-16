@@ -1,291 +1,287 @@
 const Booking = require("./BookingModel");
-//add
-add = (req, res) => {
-    //validation Error
-    let validationError = [];
+
+const add = (req, res) => {
+    const validationError = [];
+
     if (!req.body.ServiceId) {
-        validationError.push("ID is required")
+        validationError.push("ServiceId is required");
     }
     if (!req.body.VendorId) {
-        validationError.push("Vendorid is required")
+        validationError.push("VendorId is required");
     }
-     if (!req.body.CustomerId) {
-        validationError.push("C,ID is required")
-     }
-     if (!req.body.BookingDate) {
-        validationError.push("Date is required")
-     }
-   if (!req.body.BookingTime) {
-        validationError.push("Time is required")
-     }
-      if (!req.body.AlternativeContact) {
-        validationError.push("A,T,C is required")
-     }
-      if (!req.body.Address) {
-        validationError.push("Address is required")
-     }
+    if (!req.body.CustomerId) {
+        validationError.push("CustomerId is required");
+    }
+    if (!req.body.BookingDate) {
+        validationError.push("BookingDate is required");
+    }
+    if (!req.body.BookingTime) {
+        validationError.push("BookingTime is required");
+    }
+    if (!req.body.AlternativeContact) {
+        validationError.push("AlternativeContact is required");
+    }
+    if (!req.body.Address) {
+        validationError.push("Address is required");
+    }
 
-  
     if (validationError.length > 0) {
-        res.json({
+        return res.json({
             status: 422,
             success: false,
-            Message: "Validation Error occurs",
+            message: "Validation error occurs",
             error: validationError
-        })
+        });
     }
-    //Dublicacy Check
-    else {
-        Booking.findOne({ ServiceId: req.body.ServiceId })
-            .then((BookingData) => {
-                if (!BookingData) {
-                    let BookingObj = new Booking()
-                    BookingObj.ServiceId = req.body.ServiceId;
-                    BookingObj.VendorId = req.body.VinderId;
-                    BookingObj.CustomerId = req.body.CustomerId;
-                    BookingObj.BookingDate= req.body.BookingDate;
-                    BookingObj.AlternativeContact = req.body.AlternativeContact;
-                    BookingObj.Address = req.body.Address;
-                    BookingObj.save()
-                        .then((savedata) => {
-                            res.json({
-                                status: 200,
-                                success: true,
-                                Message: "data added successfully",
-                                data: savedata
-                            })
 
-                        })
-                        .catch((err) => {
-                            res.json({
-                                status: 500,
-                                success: false,
-                                Message: "internal server error",
-                                error: err.message
-                            })
-                        })
-                }
-                else {
-                    res.json({
-                        status: 422,
-                        success: false,
-                        Message: "Data Already exists",
-                        data: BookingData
-                    })
-                }
-            })
-            //Error check
-            .catch((err) => {
-                res.json({
-                    status: 500,
+    Booking.findOne({ ServiceId: req.body.ServiceId })
+        .then((bookingData) => {
+            if (bookingData) {
+                return res.json({
+                    status: 409,
                     success: false,
-                    Message: "internal server error",
-                    error: err.message
-                })
-            })
-    }
-
-
-}
-getall = async(req,res)=>{
-    let totalCount = await Booking.countDocuments().exec()
-
-    Booking.find()
-    .then((BookingData)=>{
-        res.json({
-            status:200,
-            success:true,
-            messsage:"DATA LOADED SUCCESSFULLY",
-            data:BookingData,
-            total:totalCount
-        })
-    })
-    .catch((err)=>{
-        res.json({
-            status:500,
-            success:false,
-            message:"INTERNAL SERVER ERROR",
-            error:err.message
-        })
-    })
-}
-getsingleData = (req,res)=>{
-    let validationErrors = []
-
-    if(!req.body._id){
-        validationErrors.push("id is required")
-    }
-
-    if(validationErrors.length>0){
-        res.json({
-            status:422,
-            success:false,
-            message:"Validation errors occurs",
-            error:validationErrors
-        })
-    }
-
-    else{
-        Booking.findOne({_id:req.body._id})
-        .then((BookingData)=>{
-            if(!BookingData){
-                res.json({
-                    status:404,
-                    success:false,
-                    message:"Data not found"
-                })
+                    message: "Booking already exists for this ServiceId",
+                    data: bookingData
+                });
             }
-            else{
-               res.json({
-                status:200,
-                success:true,
-                message:"DATA LOADED SUCCESSFULLY",
-                data:BookingData
-               }) 
-            }
-        })
-        .catch((err)=>{
-        res.json({
-            status:500,
-            success:false,
-            message:"INTERNAL SERVER ERROR",
-            error:err.message
-        })
-    })
-    }
-}
-deleteData = (req,res)=>{
-    let validationErrors = []
 
-    if(!req.body._id){
-        validationErrors.push("id is required")
-    }
+            const bookingObj = new Booking({
+                ServiceId: req.body.ServiceId,
+                VendorId: req.body.VendorId,
+                CustomerId: req.body.CustomerId,
+                BookingDate: req.body.BookingDate,
+                BookingTime: req.body.BookingTime,
+                AlternativeContact: req.body.AlternativeContact,
+                Address: req.body.Address
+            });
 
-    if(validationErrors.length>0){
-        res.json({
-            status:422,
-            success:false,
-            message:"Validation errors occurs",
-            error:validationErrors
-        })
-    }
-
-    else{
-        Booking.findOne({_id:req.body._id})
-        .then((BookingData)=>{
-            if(!BookingData){
-                res.json({
-                    status:404,
-                    success:false,
-                    message:"Data not found"
-                })
-            }
-            else{
-               Booking.deleteOne({_id:req.body._id})
-               .then(()=>{
-                res.json({
-                    status:200,
-                    success:true,
-                    message:"DATA DELETED SUCCESSFULLY",
-                    data:BookingData
-                })
-               })
-               .catch((err)=>{
-                 res.json({
-                    status:500,
-                    success:false,
-                    message:"INTERNAL SERVER ERROR",
-                    error:err.message
-                })
-               })
-            }
-        })
-        .catch((err)=>{
-        res.json({
-            status:500,
-            success:false,
-            message:"INTERNAL SERVER ERROR",
-            error:err.message
-        })
-    })
-    }
-}
-updateData=(req,res)=>{
-     let validationErrors=[];
-    if(!req.body._id){
-        validationErrors.push("id is required")
-    }
-    if(validationErrors.length>0){
-        res.json({
-            status:422,
-            success:false,
-            message:"Validation error occurs",
-            error:validationErrors
-        })
-    }
-
-    else{
-    Booking.findOne({_id:req.body._id})
-        .then((BookingData)=>{
-            if(!BookingData){
-                res.json({
-                    status:404,
-                    success:false,
-                    message:"Data not found."
-                })
-            }
-            else{
-                if(req.body.ServiceId){
-                    BookingData.ServiceId=req.body.ServiceId
-                }
-                if(req.body.VendorId){
-                    BookingData.VendorId=req.body.VendorId
-                }
-                 if(req.body.CustomerId){
-                    BookingData.CustomerId=req.body.CustomerId
-                }
-                 if(req.body.BookingDate){
-                    BookingData.BookingDate=req.body.BookingDate
-                }
-                if(req.body.BookingTime){
-                    BookingData.BookingTime=req.body.BookingTime
-                }
-                if(req.body.AlternativeContact){
-                    BookingData.AlternativeContact=req.body.AlternativeContact
-                }
-                if(req.body.Address){
-                    BookingData.Address=req.body.Address
-                }
-                BookingData.save()
-                .then((resData)=>{
+            bookingObj.save()
+                .then((savedata) => {
                     res.json({
-                        status:200,
-                        success:true,
-                        message:"Data updated successfully.",
-                        data:resData
-                    })
+                        status: 200,
+                        success: true,
+                        message: "Data added successfully",
+                        data: savedata
+                    });
                 })
-                .catch((err)=>{
+                .catch((err) => {
                     res.json({
-                        status:500,
-                        success:false,
-                        message:"Internal server error.",
-                        error:err.message
-                    })
-                })
-            }
+                        status: 500,
+                        success: false,
+                        message: "Internal server error",
+                        error: err.message
+                    });
+                });
         })
-        .catch((err)=>{
+        .catch((err) => {
             res.json({
-                status:500,
-                success:false,
-                message:"Internal server error.",
-                error:err.message
-            })
-        })
+                status: 500,
+                success: false,
+                message: "Internal server error",
+                error: err.message
+            });
+        });
+};
+
+const getall = async (req, res) => {
+    try {
+        const totalCount = await Booking.countDocuments().exec();
+        const bookingData = await Booking.find();
+
+        res.json({
+            status: 200,
+            success: true,
+            message: "DATA LOADED SUCCESSFULLY",
+            data: bookingData,
+            total: totalCount
+        });
+    } catch (err) {
+        res.json({
+            status: 500,
+            success: false,
+            message: "INTERNAL SERVER ERROR",
+            error: err.message
+        });
     }
-}
-       
-module.exports={
-    add,getall,getsingleData,deleteData,updateData
-}
+};
+
+const getsingleData = (req, res) => {
+    const validationErrors = [];
+
+    if (!req.body._id) {
+        validationErrors.push("id is required");
+    }
+
+    if (validationErrors.length > 0) {
+        return res.json({
+            status: 422,
+            success: false,
+            message: "Validation errors occurs",
+            error: validationErrors
+        });
+    }
+
+    Booking.findOne({ _id: req.body._id })
+        .then((bookingData) => {
+            if (!bookingData) {
+                return res.json({
+                    status: 404,
+                    success: false,
+                    message: "Data not found"
+                });
+            }
+
+            res.json({
+                status: 200,
+                success: true,
+                message: "DATA LOADED SUCCESSFULLY",
+                data: bookingData
+            });
+        })
+        .catch((err) => {
+            res.json({
+                status: 500,
+                success: false,
+                message: "INTERNAL SERVER ERROR",
+                error: err.message
+            });
+        });
+};
+
+const deleteData = (req, res) => {
+    const validationErrors = [];
+
+    if (!req.body._id) {
+        validationErrors.push("id is required");
+    }
+
+    if (validationErrors.length > 0) {
+        return res.json({
+            status: 422,
+            success: false,
+            message: "Validation errors occurs",
+            error: validationErrors
+        });
+    }
+
+    Booking.findOne({ _id: req.body._id })
+        .then((bookingData) => {
+            if (!bookingData) {
+                return res.json({
+                    status: 404,
+                    success: false,
+                    message: "Data not found"
+                });
+            }
+
+            Booking.deleteOne({ _id: req.body._id })
+                .then(() => {
+                    res.json({
+                        status: 200,
+                        success: true,
+                        message: "DATA DELETED SUCCESSFULLY",
+                        data: bookingData
+                    });
+                })
+                .catch((err) => {
+                    res.json({
+                        status: 500,
+                        success: false,
+                        message: "INTERNAL SERVER ERROR",
+                        error: err.message
+                    });
+                });
+        })
+        .catch((err) => {
+            res.json({
+                status: 500,
+                success: false,
+                message: "INTERNAL SERVER ERROR",
+                error: err.message
+            });
+        });
+};
+
+const updateData = (req, res) => {
+    const validationErrors = [];
+
+    if (!req.body._id) {
+        validationErrors.push("id is required");
+    }
+
+    if (validationErrors.length > 0) {
+        return res.json({
+            status: 422,
+            success: false,
+            message: "Validation error occurs",
+            error: validationErrors
+        });
+    }
+
+    Booking.findOne({ _id: req.body._id })
+        .then((bookingData) => {
+            if (!bookingData) {
+                return res.json({
+                    status: 404,
+                    success: false,
+                    message: "Data not found."
+                });
+            }
+
+            if (req.body.ServiceId) {
+                bookingData.ServiceId = req.body.ServiceId;
+            }
+            if (req.body.VendorId) {
+                bookingData.VendorId = req.body.VendorId;
+            }
+            if (req.body.CustomerId) {
+                bookingData.CustomerId = req.body.CustomerId;
+            }
+            if (req.body.BookingDate) {
+                bookingData.BookingDate = req.body.BookingDate;
+            }
+            if (req.body.BookingTime) {
+                bookingData.BookingTime = req.body.BookingTime;
+            }
+            if (req.body.AlternativeContact) {
+                bookingData.AlternativeContact = req.body.AlternativeContact;
+            }
+            if (req.body.Address) {
+                bookingData.Address = req.body.Address;
+            }
+
+            bookingData.save()
+                .then((resData) => {
+                    res.json({
+                        status: 200,
+                        success: true,
+                        message: "Data updated successfully.",
+                        data: resData
+                    });
+                })
+                .catch((err) => {
+                    res.json({
+                        status: 500,
+                        success: false,
+                        message: "Internal server error.",
+                        error: err.message
+                    });
+                });
+        })
+        .catch((err) => {
+            res.json({
+                status: 500,
+                success: false,
+                message: "Internal server error.",
+                error: err.message
+            });
+        });
+};
+
+module.exports = {
+    add,
+    getall,
+    getsingleData,
+    deleteData,
+    updateData
+};

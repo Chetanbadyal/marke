@@ -1,4 +1,5 @@
-const mongoose=require("mongoose")
+
+{/*const mongoose=require("mongoose")
 const ServiceSchema=new mongoose.Schema({
     ServiceName:{type:String,default:null},
     Price:{type:Number,default:null},
@@ -8,4 +9,6 @@ const ServiceSchema=new mongoose.Schema({
     Status:{type:String,default:'Active'},
     createdAt:{type:Date,default:Date.now()}
 })
-module.exports=new mongoose.model('Service',ServiceSchema)  
+module.exports=new mongoose.model('Service',ServiceSchema)   */}
+
+

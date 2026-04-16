@@ -1,4 +1,4 @@
-const Service =require("./ServiceModel")
+{/*const Service =require("./ServiceModel")
 const {uploadImg} = require("../../CloudinaryConfig");
 
 
@@ -40,7 +40,7 @@ add=(req,res)=>{
                     let image = "Attachment not available";
                         if (req.file) {
                             try {
-                                const imageUrl = await uploadImg(req.file.buffer, `node2026/${Date.now()}`);
+                                const imageUrl = await uploadImg(req.file.buffer, `marketmeet/${Date.now()}`);
                                 image = imageUrl;
                             } catch (err) {
                                 console.error("Cloudinary upload error:", err);
@@ -295,4 +295,6 @@ updateData=(req,res)=>{
        
 module.exports={
     add,getall,getsingleData,deleteData,updateData
-}
+} */}
+
+

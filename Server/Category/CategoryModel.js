@@ -1,8 +1,11 @@
-const mongoose=require("mongoose")
+{/*const mongoose=require("mongoose")
 const CategorySchema=new mongoose.Schema({
     CategoryName:{type:String,default:null},
     description:{type:String,default:null},
     Status:{type:String,default:'Active'},
     createdAt:{type:Date,default:Date}
 })
-module.exports=new mongoose.model('Category',CategorySchema)
+module.exports=new mongoose.model('Categories',CategorySchema) */}
+
+
+

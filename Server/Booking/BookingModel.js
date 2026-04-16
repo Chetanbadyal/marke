@@ -8,7 +8,7 @@ const BookingSchema=new mongoose.Schema({
     BookingTime:{type:String,default:null},
     AlternativeContact:{type:String,default:null},
     Address:{type:String,default:null},
-    Status:{type:String,default:'Active'},
-    createdAt:{type:Date,default:Date}
+    Status:{type:String,default:'Pending'},
+    createdAt:{type:Date,default:Date.now()}
 })
 module.exports=new mongoose.model('Booking',BookingSchema)
