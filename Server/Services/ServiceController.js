@@ -295,6 +295,6 @@ updateData=(req,res)=>{
        
 module.exports={
     add,getall,getsingleData,deleteData,updateData
-} */}
+}
 
 

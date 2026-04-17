@@ -1,7 +1,7 @@
+const Category = require("./CategoryModel");
 
-{/*const Category = require("./CategoryModel");
 //add
-add = (req, res) => {
+const add = (req, res) => {
     //validation Error
     let validationError = [];
     if (!req.body.CategoryName) {
@@ -252,6 +252,6 @@ updateData=(req,res)=>{
     }
 }
 
-module.exports = { add, getall, getsingleData,deleteData,updateData } */}
+module.exports = { add, getall, getsingleData, deleteData, updateData }
 
 
